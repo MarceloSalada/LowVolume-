@@ -63,13 +63,13 @@ export default function HistoryPage() {
                     </div>
                   </div>
 
-                  <div className="history-exercise-list full-history-list">
+                  <div className="history-exercise-grid">
                     {completedExercises.map((item) => {
                       const exercise = exercisesMap[item.exerciseId];
                       const lastCompletedSet = [...item.sets].reverse().find((set) => set.completed);
 
                       return (
-                        <div key={item.exerciseId} className="history-exercise-row compact">
+                        <div key={item.exerciseId} className="history-exercise-box">
                           <span className="history-exercise-name">
                             {exercise?.name ?? item.exerciseId}
                           </span>
@@ -96,4 +96,4 @@ export default function HistoryPage() {
       <BottomNav />
     </div>
   );
-                          }
+}
