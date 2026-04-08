@@ -269,4 +269,4 @@ export default function HomePage() {
       <BottomNav />
     </div>
   );
-                        }
+                  }
