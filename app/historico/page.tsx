@@ -46,30 +46,34 @@ export default function HistoryPage() {
                     </span>
                   </div>
 
-                  <div className="history-meta-grid">
-                    <div className="mini-kpi">
-                      <span className="mini-kpi-value">
+                  <div className="history-summary-bar">
+                    <div className="history-summary-item">
+                      <span className="history-summary-value">
                         {formatSeconds(session.durationSeconds)}
                       </span>
-                      <span className="mini-kpi-label">Duração</span>
+                      <span className="history-summary-label">Duração</span>
                     </div>
 
-                    <div className="mini-kpi">
-                      <span className="mini-kpi-value">
+                    <div className="history-summary-divider" />
+
+                    <div className="history-summary-item">
+                      <span className="history-summary-value">
                         {completedExercises.length}
                       </span>
-                      <span className="mini-kpi-label">Exercícios</span>
+                      <span className="history-summary-label">Exercícios</span>
                     </div>
 
-                    <div className="mini-kpi">
-                      <span className="mini-kpi-value">
+                    <div className="history-summary-divider" />
+
+                    <div className="history-summary-item">
+                      <span className="history-summary-value">
                         {session.items.reduce(
                           (sum, item) =>
                             sum + item.sets.filter((s) => s.completed).length,
                           0,
                         )}
                       </span>
-                      <span className="mini-kpi-label">Séries</span>
+                      <span className="history-summary-label">Séries</span>
                     </div>
                   </div>
 
