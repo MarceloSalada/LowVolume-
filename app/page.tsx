@@ -4,7 +4,11 @@ import Link from "next/link";
 import { useMemo } from "react";
 import { BottomNav } from "@/components/workout/bottom-nav";
 import { workoutPlans } from "@/lib/data/workout-plans";
-import { getWorkoutExerciseCount, getWorkoutTotalSets, formatSeconds } from "@/lib/utils/workout";
+import {
+  getWorkoutExerciseCount,
+  getWorkoutTotalSets,
+  formatSeconds,
+} from "@/lib/utils/workout";
 import { getHistory } from "@/lib/storage/app-storage";
 
 function getWeekLabels() {
@@ -12,7 +16,7 @@ function getWeekLabels() {
 }
 
 function getTodayIndex() {
-  const day = new Date().getDay(); // 0 domingo
+  const day = new Date().getDay();
   return day === 0 ? 6 : day - 1;
 }
 
@@ -23,7 +27,7 @@ function getWeekActivity(history: ReturnType<typeof getHistory>) {
   monday.setDate(now.getDate() - (dayOfWeek - 1));
   monday.setHours(0, 0, 0, 0);
 
-  const result = Array.from({ length: 7 }).map((_, index) => {
+  return Array.from({ length: 7 }).map((_, index) => {
     const start = new Date(monday);
     start.setDate(monday.getDate() + index);
     const end = new Date(start);
@@ -36,12 +40,9 @@ function getWeekActivity(history: ReturnType<typeof getHistory>) {
 
     return {
       label: getWeekLabels()[index],
-      date: start,
       sessions,
     };
   });
-
-  return result;
 }
 
 export default function HomePage() {
@@ -70,18 +71,16 @@ export default function HomePage() {
       </header>
 
       <main className="container">
-        <section className="hero modern-hero">
-          <div className="hero-header">
-            <div>
-              <span className="hero-badge">Treino de hoje</span>
-              <h2 className="hero-title">{featured.name}</h2>
-              <p className="hero-meta">
-                Foco em {featured.focus}. {featured.description}
-              </p>
-            </div>
+        <section className="hero modern-hero compact-hero">
+          <div>
+            <span className="hero-badge">Treino de hoje</span>
+            <h2 className="hero-title compact">{featured.name}</h2>
+            <p className="hero-meta compact">
+              Foco em {featured.focus}. {featured.description}
+            </p>
           </div>
 
-          <div className="hero-actions">
+          <div className="hero-actions compact">
             <Link className="btn" href={`/executar/${featured.id}`}>
               Iniciar agora
             </Link>
@@ -108,9 +107,7 @@ export default function HomePage() {
                 return (
                   <div
                     key={index}
-                    className={`week-day ${trained ? "done" : ""} ${
-                      isToday ? "today" : ""
-                    }`}
+                    className={`week-day ${trained ? "done" : ""} ${isToday ? "today" : ""}`}
                   >
                     <span className="week-label">{day.label}</span>
                     <span className="week-dot">{label || "•"}</span>
@@ -133,7 +130,9 @@ export default function HomePage() {
               <span className="kpi-label">Minutos</span>
             </div>
             <div className="kpi">
-              <span className="kpi-value">{week.filter((d) => d.sessions.length > 0).length}</span>
+              <span className="kpi-value">
+                {week.filter((d) => d.sessions.length > 0).length}
+              </span>
               <span className="kpi-label">Dias ativos</span>
             </div>
           </div>
@@ -148,7 +147,7 @@ export default function HomePage() {
               {recent.map((session) => {
                 const plan = workoutPlans.find((p) => p.id === session.workoutPlanId);
                 return (
-                  <div key={session.id} className="card history-item">
+                  <div key={session.id} className="card history-item compact-history-home">
                     <div className="row">
                       <strong>{plan?.name ?? session.workoutPlanId}</strong>
                       <span className="badge">
@@ -205,4 +204,4 @@ export default function HomePage() {
       <BottomNav />
     </div>
   );
-      }
+                    }
