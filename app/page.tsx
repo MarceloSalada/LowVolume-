@@ -10,6 +10,9 @@ import {
   formatSeconds,
 } from "@/lib/utils/workout";
 import { getHistory } from "@/lib/storage/app-storage";
+import { getExerciseHistory } from "@/lib/storage/progression-storage";
+import { getProgressSummary } from "@/lib/utils/progression";
+import { exercises } from "@/lib/data/exercises";
 
 function getWeekLabels() {
   return ["S", "T", "Q", "Q", "S", "S", "D"];
@@ -55,6 +58,17 @@ export default function HomePage() {
     history.reduce((sum, item) => sum + item.durationSeconds, 0) / 60,
   );
   const todayIndex = getTodayIndex();
+
+  const progressHighlights = exercises
+    .map((exercise) => {
+      const summary = getProgressSummary(getExerciseHistory(exercise.id));
+      return {
+        exercise,
+        summary,
+      };
+    })
+    .filter((item) => item.summary.latest)
+    .slice(0, 3);
 
   return (
     <div className="page-shell">
@@ -139,6 +153,54 @@ export default function HomePage() {
         </section>
 
         <section>
+          <h3 className="section-title">Progresso recente</h3>
+          {progressHighlights.length === 0 ? (
+            <div className="card empty-state">
+              Faça mais treinos para começar a ver evolução por exercício.
+            </div>
+          ) : (
+            <div className="list">
+              {progressHighlights.map(({ exercise, summary }) => (
+                <div key={exercise.id} className="card progress-card">
+                  <div className="row">
+                    <strong>{exercise.name}</strong>
+                    <span className="badge">
+                      {summary.trend === "subindo"
+                        ? "Subindo"
+                        : summary.trend === "estável"
+                        ? "Estável"
+                        : summary.trend === "caindo"
+                        ? "Caindo"
+                        : "Sem dados"}
+                    </span>
+                  </div>
+                  <div className="progress-grid">
+                    <div className="mini-kpi">
+                      <span className="mini-kpi-value">
+                        {summary.latest ? `${summary.latest.load} kg` : "-"}
+                      </span>
+                      <span className="mini-kpi-label">Última carga</span>
+                    </div>
+                    <div className="mini-kpi">
+                      <span className="mini-kpi-value">
+                        {summary.bestLoad ? `${summary.bestLoad} kg` : "-"}
+                      </span>
+                      <span className="mini-kpi-label">Melhor carga</span>
+                    </div>
+                    <div className="mini-kpi">
+                      <span className="mini-kpi-value">
+                        {summary.bestReps ?? "-"}
+                      </span>
+                      <span className="mini-kpi-label">Melhores reps</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section>
           <h3 className="section-title">Últimos treinos</h3>
           {recent.length === 0 ? (
             <div className="card empty-state">Nenhum treino salvo ainda.</div>
@@ -204,4 +266,4 @@ export default function HomePage() {
       <BottomNav />
     </div>
   );
-                    }
+      }
