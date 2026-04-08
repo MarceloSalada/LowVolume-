@@ -35,7 +35,7 @@ export default function HistoryPage() {
               );
 
               return (
-                <div key={session.id} className="card history-item modern-panel">
+                <div key={session.id} className="card history-item modern-panel compact-history-card">
                   <div className="row">
                     <strong>{plan?.name ?? session.workoutPlanId}</strong>
                     <span className="badge">
@@ -54,21 +54,29 @@ export default function HistoryPage() {
                     </div>
                     <div className="mini-kpi">
                       <span className="mini-kpi-value">
-                        {session.items.reduce((sum, item) => sum + item.sets.filter((s) => s.completed).length, 0)}
+                        {session.items.reduce(
+                          (sum, item) => sum + item.sets.filter((s) => s.completed).length,
+                          0,
+                        )}
                       </span>
                       <span className="mini-kpi-label">Séries</span>
                     </div>
                   </div>
 
-                  <div className="history-exercise-list">
-                    {completedExercises.slice(0, 3).map((item) => {
+                  <div className="history-exercise-list full-history-list">
+                    {completedExercises.map((item) => {
                       const exercise = exercisesMap[item.exerciseId];
                       const lastCompletedSet = [...item.sets].reverse().find((set) => set.completed);
+
                       return (
-                        <div key={item.exerciseId} className="history-exercise-row">
-                          <span>{exercise?.name ?? item.exerciseId}</span>
-                          <span className="muted">
-                            {lastCompletedSet ? `${lastCompletedSet.load} kg • ${lastCompletedSet.reps} reps` : "Sem dados"}
+                        <div key={item.exerciseId} className="history-exercise-row compact">
+                          <span className="history-exercise-name">
+                            {exercise?.name ?? item.exerciseId}
+                          </span>
+                          <span className="muted history-exercise-result">
+                            {lastCompletedSet
+                              ? `${lastCompletedSet.load} kg • ${lastCompletedSet.reps} reps`
+                              : "Sem dados"}
                           </span>
                         </div>
                       );
@@ -88,4 +96,4 @@ export default function HistoryPage() {
       <BottomNav />
     </div>
   );
-}
+                          }
