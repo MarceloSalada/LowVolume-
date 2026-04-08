@@ -12,7 +12,6 @@
 }
 
 * { box-sizing: border-box; }
-
 html { -webkit-tap-highlight-color: transparent; }
 
 body {
@@ -98,6 +97,10 @@ button, input, textarea { font: inherit; }
   border: 1px solid rgba(79,163,255,0.2);
 }
 
+.compact-hero {
+  padding: 16px;
+}
+
 .hero-badge,
 .badge {
   display: inline-flex;
@@ -120,9 +123,20 @@ button, input, textarea { font: inherit; }
   font-weight: 700;
 }
 
+.hero-title.compact {
+  font-size: 22px;
+  margin-top: 10px;
+}
+
 .hero-meta,
 .muted {
   color: var(--muted);
+}
+
+.hero-meta.compact {
+  margin-top: 10px;
+  margin-bottom: 0;
+  line-height: 1.35;
 }
 
 .hero-actions,
@@ -142,6 +156,10 @@ button, input, textarea { font: inherit; }
 
 .hero-actions {
   margin-top: 16px;
+}
+
+.hero-actions.compact {
+  margin-top: 14px;
 }
 
 .btn {
@@ -381,6 +399,34 @@ button, input, textarea { font: inherit; }
   border-top: 1px dashed rgba(255,255,255,0.06);
 }
 
+.history-exercise-row.compact {
+  padding-top: 8px;
+  padding-bottom: 2px;
+}
+
+.history-exercise-name {
+  flex: 1;
+  min-width: 0;
+}
+
+.history-exercise-result {
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.full-history-list {
+  gap: 8px;
+}
+
+.compact-history-card {
+  gap: 10px;
+}
+
+.compact-history-home {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
 .notes-chip {
   padding: 10px 12px;
   border-radius: 14px;
@@ -408,4 +454,13 @@ button, input, textarea { font: inherit; }
   .set-row button {
     grid-column: 1 / -1;
   }
-                              }
+
+  .history-exercise-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .history-exercise-result {
+    white-space: normal;
+  }
+  }
