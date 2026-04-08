@@ -35,7 +35,10 @@ export default function HistoryPage() {
               );
 
               return (
-                <div key={session.id} className="card history-item modern-panel compact-history-card">
+                <div
+                  key={session.id}
+                  className="card history-item modern-panel compact-history-card"
+                >
                   <div className="row">
                     <strong>{plan?.name ?? session.workoutPlanId}</strong>
                     <span className="badge">
@@ -45,17 +48,24 @@ export default function HistoryPage() {
 
                   <div className="history-meta-grid">
                     <div className="mini-kpi">
-                      <span className="mini-kpi-value">{formatSeconds(session.durationSeconds)}</span>
+                      <span className="mini-kpi-value">
+                        {formatSeconds(session.durationSeconds)}
+                      </span>
                       <span className="mini-kpi-label">Duração</span>
                     </div>
+
                     <div className="mini-kpi">
-                      <span className="mini-kpi-value">{completedExercises.length}</span>
+                      <span className="mini-kpi-value">
+                        {completedExercises.length}
+                      </span>
                       <span className="mini-kpi-label">Exercícios</span>
                     </div>
+
                     <div className="mini-kpi">
                       <span className="mini-kpi-value">
                         {session.items.reduce(
-                          (sum, item) => sum + item.sets.filter((s) => s.completed).length,
+                          (sum, item) =>
+                            sum + item.sets.filter((s) => s.completed).length,
                           0,
                         )}
                       </span>
@@ -66,10 +76,15 @@ export default function HistoryPage() {
                   <div className="history-exercise-grid">
                     {completedExercises.map((item) => {
                       const exercise = exercisesMap[item.exerciseId];
-                      const lastCompletedSet = [...item.sets].reverse().find((set) => set.completed);
+                      const lastCompletedSet = [...item.sets]
+                        .reverse()
+                        .find((set) => set.completed);
 
                       return (
-                        <div key={item.exerciseId} className="history-exercise-box">
+                        <div
+                          key={item.exerciseId}
+                          className="history-exercise-box"
+                        >
                           <span className="history-exercise-name">
                             {exercise?.name ?? item.exerciseId}
                           </span>
