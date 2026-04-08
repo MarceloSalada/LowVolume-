@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 const links = [
   { href: "/", label: "Home" },
   { href: "/treinos", label: "Treinos" },
+  { href: "/progresso", label: "Progresso" },
   { href: "/historico", label: "Histórico" },
-  { href: "/exercicios", label: "Exercícios" },
 ];
 
 export function BottomNav() {
