@@ -114,7 +114,10 @@ export default function ProgressPage() {
 
               <div className="history-exercise-grid">
                 {history.slice(0, 4).map((entry, index) => (
-                  <div key={`${exercise.id}-${index}`} className="history-exercise-box">
+                  <div
+                    key={`${exercise.id}-${index}`}
+                    className="history-exercise-box"
+                  >
                     <span className="history-exercise-name">
                       {new Date(entry.performedAt).toLocaleDateString("pt-BR")}
                     </span>
@@ -132,4 +135,4 @@ export default function ProgressPage() {
       <BottomNav />
     </div>
   );
-                                          }
+}
