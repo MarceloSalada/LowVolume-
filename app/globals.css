@@ -471,6 +471,40 @@ button, input, textarea { font: inherit; }
   align-items: flex-start;
 }
 
+.history-summary-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+}
+
+.history-summary-item {
+  display: grid;
+  text-align: center;
+  gap: 4px;
+}
+
+.history-summary-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.history-summary-label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.history-summary-divider {
+  width: 1px;
+  height: 36px;
+  background: rgba(255,255,255,0.08);
+}
+
 @media (max-width: 560px) {
   .kpi-grid,
   .history-meta-grid,
@@ -505,4 +539,13 @@ button, input, textarea { font: inherit; }
   .progress-exercise-card {
     grid-template-columns: 72px 1fr;
   }
-                   }
+
+  .history-summary-bar {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .history-summary-divider {
+    display: none;
+  }
+  }
