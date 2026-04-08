@@ -7,6 +7,10 @@ import { BottomNav } from "@/components/workout/bottom-nav";
 import { workoutPlansMap } from "@/lib/data/workout-plans";
 import { exercisesMap } from "@/lib/data/exercises";
 import { saveSession } from "@/lib/storage/app-storage";
+import {
+  appendProgression,
+  getLatestPerformanceByExercise,
+} from "@/lib/storage/progression-storage";
 import { formatSeconds } from "@/lib/utils/workout";
 
 type SetState = {
@@ -46,7 +50,7 @@ export default function ExecuteWorkoutPage() {
         })),
       ]),
     );
-  }, [plan.id]);
+  }, [plan.id, sorted]);
 
   const [exerciseStates, setExerciseStates] =
     useState<SessionExerciseState>(initialSessionState);
@@ -54,6 +58,7 @@ export default function ExecuteWorkoutPage() {
   const current = sorted[currentIndex];
   const exercise = exercisesMap[current.exerciseId];
   const currentSets = exerciseStates[current.exerciseId] ?? [];
+  const latestPerformance = getLatestPerformanceByExercise(current.exerciseId);
 
   useEffect(() => {
     const interval = window.setInterval(() => {
@@ -102,11 +107,12 @@ export default function ExecuteWorkoutPage() {
 
   function finishWorkout() {
     const durationSeconds = Math.max(1, elapsedSeconds);
+    const performedAt = new Date().toISOString();
 
     const session = {
       id: crypto.randomUUID(),
       workoutPlanId: plan.id,
-      performedAt: new Date().toISOString(),
+      performedAt,
       durationSeconds,
       notes,
       items: sorted.map((item) => ({
@@ -120,6 +126,28 @@ export default function ExecuteWorkoutPage() {
     };
 
     saveSession(session);
+
+    const progressionEntries = sorted.flatMap((item) => {
+      const sets = exerciseStates[item.exerciseId] ?? [];
+      const lastCompletedSet = [...sets]
+        .reverse()
+        .find((set) => set.completed && Number(set.load) > 0 && Number(set.reps) > 0);
+
+      if (!lastCompletedSet) return [];
+
+      return [
+        {
+          exerciseId: item.exerciseId,
+          performedAt,
+          load: Number(lastCompletedSet.load),
+          reps: Number(lastCompletedSet.reps),
+          workoutPlanId: plan.id,
+        },
+      ];
+    });
+
+    appendProgression(progressionEntries);
+
     window.location.href = "/historico";
   }
 
@@ -166,6 +194,15 @@ export default function ExecuteWorkoutPage() {
           <div className="row wrap">
             <span className="badge">Descanso padrão: {current.restSeconds}s</span>
             <span className="badge soft">{exercise.primaryMuscles.join(", ")}</span>
+          </div>
+
+          <div className="card latest-load-card">
+            <strong>Última carga usada</strong>
+            <p className="muted" style={{ margin: "8px 0 0" }}>
+              {latestPerformance
+                ? `${latestPerformance.load} kg • ${latestPerformance.reps} reps`
+                : "Sem histórico ainda para este exercício"}
+            </p>
           </div>
 
           <div className="rest-card">
@@ -245,4 +282,4 @@ export default function ExecuteWorkoutPage() {
       <BottomNav />
     </div>
   );
-                  }
+                                        }
