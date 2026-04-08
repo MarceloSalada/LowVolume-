@@ -435,10 +435,44 @@ button, input, textarea { font: inherit; }
   font-size: 13px;
 }
 
+.latest-load-card {
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+}
+
+.progress-card {
+  gap: 12px;
+}
+
+.progress-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.history-exercise-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.history-exercise-box {
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.05);
+  display: grid;
+  gap: 6px;
+}
+
 @media (max-width: 560px) {
   .kpi-grid,
-  .history-meta-grid {
-    grid-template-columns: repeat(3, 1fr);
+  .history-meta-grid,
+  .progress-grid,
+  .history-exercise-grid {
+    grid-template-columns: 1fr;
   }
 
   .rest-card,
@@ -463,4 +497,4 @@ button, input, textarea { font: inherit; }
   .history-exercise-result {
     white-space: normal;
   }
-  }
+    }
