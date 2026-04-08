@@ -41,16 +41,20 @@ export default function ExecuteWorkoutPage() {
 
   const initialSessionState = useMemo<SessionExerciseState>(() => {
     return Object.fromEntries(
-      sorted.map((item) => [
-        item.exerciseId,
-        Array.from({ length: item.sets }).map(() => ({
-          reps: "",
-          load: "",
-          completed: false,
-        })),
-      ]),
+      sorted.map((item) => {
+        const latest = getLatestPerformanceByExercise(item.exerciseId);
+
+        return [
+          item.exerciseId,
+          Array.from({ length: item.sets }).map((_, index) => ({
+            reps: index === 0 && latest ? String(latest.reps) : "",
+            load: index === 0 && latest ? String(latest.load) : "",
+            completed: false,
+          })),
+        ];
+      }),
     );
-  }, [plan.id, sorted]);
+  }, [sorted]);
 
   const [exerciseStates, setExerciseStates] =
     useState<SessionExerciseState>(initialSessionState);
@@ -88,6 +92,18 @@ export default function ExecuteWorkoutPage() {
       [current.exerciseId]: prev[current.exerciseId].map((item, i) =>
         i === index ? { ...item, ...patch } : item,
       ),
+    }));
+  }
+
+  function applyLastLoadToAllSets() {
+    if (!latestPerformance) return;
+
+    setExerciseStates((prev) => ({
+      ...prev,
+      [current.exerciseId]: prev[current.exerciseId].map((item) => ({
+        ...item,
+        load: String(latestPerformance.load),
+      })),
     }));
   }
 
@@ -197,7 +213,19 @@ export default function ExecuteWorkoutPage() {
           </div>
 
           <div className="card latest-load-card">
-            <strong>Última carga usada</strong>
+            <div className="row">
+              <strong>Última carga usada</strong>
+              {latestPerformance ? (
+                <button
+                  type="button"
+                  className="btn secondary"
+                  onClick={applyLastLoadToAllSets}
+                >
+                  Aplicar carga
+                </button>
+              ) : null}
+            </div>
+
             <p className="muted" style={{ margin: "8px 0 0" }}>
               {latestPerformance
                 ? `${latestPerformance.load} kg • ${latestPerformance.reps} reps`
@@ -282,4 +310,4 @@ export default function ExecuteWorkoutPage() {
       <BottomNav />
     </div>
   );
-                             }
+              }
