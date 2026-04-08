@@ -467,6 +467,10 @@ button, input, textarea { font: inherit; }
   gap: 6px;
 }
 
+.progress-exercise-card {
+  align-items: flex-start;
+}
+
 @media (max-width: 560px) {
   .kpi-grid,
   .history-meta-grid,
@@ -497,4 +501,8 @@ button, input, textarea { font: inherit; }
   .history-exercise-result {
     white-space: normal;
   }
-    }
+
+  .progress-exercise-card {
+    grid-template-columns: 72px 1fr;
+  }
+                   }
