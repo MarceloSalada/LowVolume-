@@ -115,8 +115,8 @@ export default function HomePage() {
                   day.sessions[0]?.workoutPlanId === "anteriores-a"
                     ? "A"
                     : day.sessions[0]?.workoutPlanId === "posteriores-a"
-                    ? "P"
-                    : "";
+                      ? "P"
+                      : "";
 
                 return (
                   <div
@@ -168,12 +168,13 @@ export default function HomePage() {
                       {summary.trend === "subindo"
                         ? "Subindo"
                         : summary.trend === "estável"
-                        ? "Estável"
-                        : summary.trend === "caindo"
-                        ? "Caindo"
-                        : "Sem dados"}
+                          ? "Estável"
+                          : summary.trend === "caindo"
+                            ? "Caindo"
+                            : "Sem dados"}
                     </span>
                   </div>
+
                   <div className="progress-grid">
                     <div className="mini-kpi">
                       <span className="mini-kpi-value">
@@ -181,12 +182,14 @@ export default function HomePage() {
                       </span>
                       <span className="mini-kpi-label">Última carga</span>
                     </div>
+
                     <div className="mini-kpi">
                       <span className="mini-kpi-value">
                         {summary.bestLoad ? `${summary.bestLoad} kg` : "-"}
                       </span>
                       <span className="mini-kpi-label">Melhor carga</span>
                     </div>
+
                     <div className="mini-kpi">
                       <span className="mini-kpi-value">
                         {summary.bestReps ?? "-"}
@@ -266,4 +269,4 @@ export default function HomePage() {
       <BottomNav />
     </div>
   );
-      }
+                        }
