@@ -43,4 +43,4 @@ export function getProgressSummary(entries: ExercisePerformance[]) {
     bestReps: getBestReps(entries),
     trend,
   };
-}
+                          }
