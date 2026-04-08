@@ -282,4 +282,4 @@ export default function ExecuteWorkoutPage() {
       <BottomNav />
     </div>
   );
-                                        }
+                }
